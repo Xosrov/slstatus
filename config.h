@@ -65,14 +65,15 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ netspeed_rx, "%sB/s | ", "wlp3s0" }, 	// network speed
+	{ netspeed_rx, "%sB/s ", "wlp3s0" }, 																// network speed
+	{ netspeed_tx, "%sB/s | ", "wlp3s0" }, 															// network speed
 	{ run_command, " %s ", "pactl list sinks | grep -m 1 Volume | awk '{print $5}'" }, 				// current speaker volume
 	{ run_command, " %s | ", "pactl list sources | grep -m 3 Volume | tail -n1 | awk '{print $5}'" }, 	// microphone volume
-	{ cpu_perc, "[ %s%%] ", NULL	      }, // cpu usage percentage
-	{ ram_perc, "[ %s%%] ", NULL	      }, // ram usage percentage
-	{ run_command, "%s", "nmcli -f IN-USE,SSID,SIGNAL dev wifi | grep ^'*' | awk '{str = sprintf(\"[ %s %s%%] \", $2, $3)} END {print str}'" }, // connected wifi and str
-	{ run_command, "%s", "nmcli -f TYPE,NAME conn show --active | grep ethernet | cut  -d' ' -f2- | awk '{$1=$1};1' | awk '{print \"[\" $0 \"] \"}' || echo hi" },	// connected ethernet
-	{ run_command, "[ %s] ", "acpi | cut -d ' ' -f 4-"    }, // battery % and state
-	{ run_command, " <%s> | ", "xkblayout-state print '%s'" }, // language layout
-	{ datetime, "%s",           "%a, %b %d, %T  %Y" },	// datetime
+	{ cpu_perc, "[~%s%% ", NULL },																		// cpu usage percentage
+	{ ram_perc, "~%s%%] ", NULL }, 																	// ram usage percentage
+	{ run_command, "[ %s%%] ", "nmcli -t -f IN-USE,SSID,SIGNAL dev wifi | awk '{split($0,a,\":\"); printf \"%s %s\", a[2], a[3]}'" },  // connected wifi
+	{ run_command, "[ %s] ",  "nmcli -t -f TYPE,NAME conn show --active | grep ether | awk '{split($0,a,\":\"); print a[2]}'" }, 		// connected ethernet
+	{ run_command, "[ %s] ", "acpi | cut -d ' ' -f 4-"    }, 			// battery % and state
+	{ keymap, " <%s> | ", NULL }, 										// language layout
+	{ datetime, "%s", "%a, %b %d, %T  %Y" },							// datetime
 };

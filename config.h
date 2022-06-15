@@ -71,7 +71,7 @@ static const struct arg args[] = {
 	{ run_command, " %s | ", "pactl list sources | grep -m 3 Volume | tail -n1 | awk '{print $5}'" }, 	// microphone volume
 	{ cpu_perc, "[~%s%% ", NULL },																		// cpu usage percentage
 	{ ram_perc, "~%s%%] ", NULL }, 																	// ram usage percentage
-	{ run_command, "[ %s%%] ", "nmcli -t -f IN-USE,SSID,SIGNAL dev wifi | awk '{split($0,a,\":\"); printf \"%s %s\", a[2], a[3]}'" },  // connected wifi
+	{ run_command, "[ %s%%] ", "nmcli -t -f IN-USE,SSID,SIGNAL dev wifi | grep *: | awk '{split($0,a,\":\"); printf \"%s %s\", a[2], a[3]}'" },  // connected wifi
 	{ run_command, "[ %s] ",  "nmcli -t -f TYPE,NAME conn show --active | grep ether | awk '{split($0,a,\":\"); print a[2]}'" }, 		// connected ethernet
 	{ run_command, "[ %s] ", "acpi | cut -d ' ' -f 4-"    }, 			// battery % and state
 	{ keymap, " <%s> | ", NULL }, 										// language layout

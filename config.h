@@ -65,10 +65,10 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ netspeed_rx, "%sB/s ", "wlp3s0" }, 																// network speed
-	{ netspeed_tx, "%sB/s | ", "wlp3s0" }, 															// network speed
-	{ run_command, " %s ", "pactl list sinks | grep -m 1 Volume | awk '{print $5}'" }, 				// current speaker volume
-	{ run_command, " %s | ", "pactl list sources | grep -m 3 Volume | tail -n1 | awk '{print $5}'" }, 	// microphone volume
+	{ netspeed_rx, "%sB/s ", "wlp0s20f3" }, 																// network speed
+	{ netspeed_tx, "%sB/s | ", "wlp0s20f3" }, 															// network speed
+	{ run_command, " %s ", "amixer sget Master | awk -F"[][]" '/Left:/ { print $2 }'" }, 				// current speaker volume
+	{ run_command, " %s | ", "amixer sget Capture | awk -F"[][]" '/Left:/ { print $2 }'" }, 	// microphone volume
 	{ cpu_perc, "[~%s%% ", NULL },																		// cpu usage percentage
 	{ ram_perc, "~%s%%] ", NULL }, 																	// ram usage percentage
 	{ run_command, "[ %s%%] ", "nmcli -t -f IN-USE,SSID,SIGNAL dev wifi | grep *: | awk '{split($0,a,\":\"); printf \"%s %s\", a[2], a[3]}'" },  // connected wifi
@@ -77,3 +77,4 @@ static const struct arg args[] = {
 	{ keymap, " <%s> | ", NULL }, 										// language layout
 	{ datetime, "%s", "%a, %b %d, %T  %Y" },							// datetime
 };
+
